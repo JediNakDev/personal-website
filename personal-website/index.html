@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=DM+Mono&family=Kanit&family=Nunito+Sans:opsz@6..12&display=swap"
+      href="https://fonts.googleapis.com/css2?family=DM+Mono&family=Kanit&family=Nunito+Sans:opsz@6..12&family=Prompt&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="style.css" />
@@ -26,57 +26,236 @@
         </a>
       </div>
       <div class="flex-none">
-        <button class="btn btn-square btn-ghost">
+        <a class="btn btn-square btn-ghost" href="#home">
           <img src="public/svg/home.svg" alt="" />
-        </button>
+        </a>
       </div>
       <div class="flex-none">
-        <button class="btn btn-square btn-ghost">
+        <a class="btn btn-square btn-ghost" href="#about-me">
           <img src="public/svg/user.svg" alt="" />
-        </button>
+        </a>
       </div>
       <div class="flex-none">
-        <button class="btn btn-square btn-ghost">
+        <a class="btn btn-square btn-ghost">
           <img src="public/svg/briefcase.svg" alt="" />
-        </button>
+        </a>
       </div>
       <div class="flex-none">
-        <button class="btn btn-square btn-ghost">
+        <a class="btn btn-square btn-ghost">
           <img src="public/svg/book.svg" alt="" />
-        </button>
+        </a>
       </div>
       <div class="flex-none">
-        <button class="btn btn-square btn-ghost">
+        <a class="btn btn-square btn-ghost">
           <img src="public/svg/code.svg" alt="" />
-        </button>
+        </a>
       </div>
       <div class="flex-none">
-        <button class="btn btn-square btn-ghost">
+        <a class="btn btn-square btn-ghost">
           <img src="public/svg/feather.svg" alt="" />
-        </button>
+        </a>
       </div>
       <div class="flex-none">
-        <button class="btn btn-square btn-ghost">
+        <a class="btn btn-square btn-ghost">
           <img src="public/svg/check.svg" alt="" />
-        </button>
+        </a>
       </div>
       <div class="flex-none">
-        <button class="btn btn-square btn-ghost">
+        <a class="btn btn-square btn-ghost">
           <img src="public/svg/users.svg" alt="" />
-        </button>
+        </a>
       </div>
       <div class="flex-none">
-        <button class="btn btn-square btn-ghost">
+        <a class="btn btn-square btn-ghost">
           <img src="public/svg/git-pull-request.svg" alt="" />
-        </button>
+        </a>
       </div>
     </div>
     <!-- Home -->
-    <div class="w-full h-full cream-bg flex justify-center items-center">
+    <div
+      class="w-full h-full black-bg flex justify-center items-center"
+      id="home"
+    >
       <div class="text-center flex flex-col items-start">
-        <p class="text-3xl font-nunito-sans black">HelloWorld, my name is</p>
-        <h1 class="text-9xl font-kanit black">Pitchayut Ariyachansil.</h1>
-        <p class="text-3xl font-nunito-sans black">Welcome to my portfolio</p>
+        <p class="text-3xl font-nunito-sans orange">HelloWorld, my name is</p>
+        <h1 class="text-8xl font-kanit orange">Pitchayut Ariyachansil.</h1>
+        <p class="text-3xl font-nunito-sans orange">Welcome to my portfolio</p>
+      </div>
+    </div>
+    <!-- About me -->
+    <div
+      class="w-full h-full cream-bg flex justify-center items-center"
+      id="about-me"
+    >
+      <div class="w-1/2"></div>
+      <div class="text-center flex flex-col items-start w-1/2">
+        <h1 class="text-8xl font-kanit black">About me</h1>
+        <p class="text-lg font-prompt black text-justify mr-8">
+          I was born and grew up in Bangkok, Thailand. I started programming
+          with Python in a middle school, Patumwan Demonstration School.
+          Currently, I am in grade 12th at Kamnoetvidya Science Academy. I am
+          interested in software development, machine learning, and data
+          analytics. I have developed a website, worked as an application
+          developer, and wrote a physics simulation.
+        </p>
+        <div class="flex">
+          <!-- C -->
+          <a
+            href="https://docs.microsoft.com/en-us/cpp/?view=msvc-170"
+            target="_blank"
+            rel="noreferrer"
+            class="mr-2"
+            ><img
+              src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/skills/c-colored.svg"
+              width="36"
+              height="36"
+              alt="C"
+          /></a>
+          <!-- C++ -->
+          <a
+            href="https://docs.microsoft.com/en-us/cpp/?view=msvc-170"
+            target="_blank"
+            rel="noreferrer"
+            class="mr-2"
+            ><img
+              src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/skills/cplusplus-colored.svg"
+              width="36"
+              height="36"
+              alt="C++"
+          /></a>
+          <!-- Python -->
+          <a
+            href="https://www.python.org/"
+            target="_blank"
+            rel="noreferrer"
+            class="mr-2"
+            ><img
+              src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/skills/python-colored.svg"
+              width="36"
+              height="36"
+              alt="Python"
+          /></a>
+          <!-- HTML -->
+          <a
+            href="https://developer.mozilla.org/en-US/docs/Glossary/HTML5"
+            target="_blank"
+            rel="noreferrer"
+            class="mr-2"
+            ><img
+              src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/skills/html5-colored.svg"
+              width="36"
+              height="36"
+              alt="HTML5"
+          /></a>
+          <!-- CSS -->
+          <a
+            href="https://www.w3.org/TR/CSS/#css"
+            target="_blank"
+            rel="noreferrer"
+            class="mr-2"
+            ><img
+              src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/skills/css3-colored.svg"
+              width="36"
+              height="36"
+              alt="CSS3"
+          /></a>
+          <!-- Javascript -->
+          <a
+            href="https://developer.mozilla.org/en-US/docs/Web/JavaScript"
+            target="_blank"
+            rel="noreferrer"
+            class="mr-2"
+            ><img
+              src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/skills/javascript.svg"
+              width="36"
+              height="36"
+              alt="JavaScript"
+          /></a>
+          <!-- Typescript -->
+          <a
+            href="https://www.typescriptlang.org/"
+            target="_blank"
+            rel="noreferrer"
+            class="mr-2"
+            ><img
+              src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/skills/typescript-colored.svg"
+              width="36"
+              height="36"
+              alt="TypeScript"
+          /></a>
+          <!-- Next JS -->
+          <a
+            href="https://nextjs.org/docs"
+            target="_blank"
+            rel="noreferrer"
+            class="mr-2"
+            ><img
+              src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/skills/nextjs-colored.svg"
+              width="36"
+              height="36"
+              alt="NextJs"
+          /></a>
+          <!-- Node JS -->
+          <a
+            href="https://nodejs.org/en/"
+            target="_blank"
+            rel="noreferrer"
+            class="mr-2"
+            ><img
+              src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/skills/nodejs-colored.svg"
+              width="36"
+              height="36"
+              alt="NodeJS"
+          /></a>
+          <!-- Express -->
+          <a
+            href="https://expressjs.com/"
+            target="_blank"
+            rel="noreferrer"
+            class="mr-2"
+            ><img
+              src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/skills/express-colored.svg"
+              width="36"
+              height="36"
+              alt="Express"
+          /></a>
+          <!-- Flask -->
+          <a
+            href="https://flask.palletsprojects.com/en/2.0.x/"
+            target="_blank"
+            rel="noreferrer"
+            class="mr-2"
+            ><img
+              src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/skills/flask-colored.svg"
+              width="36"
+              height="36"
+              alt="Flask"
+          /></a>
+          <!-- Dart -->
+          <a
+            href="https://dart.dev/"
+            target="_blank"
+            rel="noreferrer"
+            class="mr-2"
+            ><img
+              src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/skills/dart-colored.svg"
+              width="36"
+              height="36"
+              alt="Dart"
+          /></a>
+          <!-- Flutter -->
+          <a
+            href="https://flutter.dev/"
+            target="_blank"
+            rel="noreferrer"
+            class="mr-2"
+            ><img
+              src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/skills/flutter-colored.svg"
+              width="36"
+              height="36"
+              alt="Flutter"
+          /></a>
+        </div>
       </div>
     </div>
   </body>
