@@ -1,0 +1,12 @@
+.black {
+  color: #594f4b;
+}
+
+.black-bg {
+  background-color: #594f4b;
+}
+
+.font-dm-mono {
+  font-family: "DM Mono", monospace;
+  text-transform: none;
+}
