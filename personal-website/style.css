@@ -6,11 +6,35 @@
   color: #e5a99a;
 }
 
+.cream {
+  color: #efdfd7;
+}
+
+.brown {
+  color: #9d7058;
+}
+
+.lbrown {
+  color: #c5977d;
+}
+
 .black-bg {
   background-color: #594f4b;
 }
 .cream-bg {
   background-color: #efdfd7;
+}
+
+.orange-bg {
+  background-color: #e5a99a;
+}
+
+.brown-bg {
+  background-color: #9d7058;
+}
+
+.lbrown-bg {
+  background-color: #c5977d;
 }
 
 .font-dm-mono {
