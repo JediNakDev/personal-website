@@ -51,6 +51,7 @@
         </a>
       </div>
     </div>
+
     <!-- Home -->
     <div
       class="w-full h-full black-bg flex justify-center items-center"
@@ -62,6 +63,7 @@
         <p class="text-3xl font-nunito-sans orange">Welcome to my portfolio</p>
       </div>
     </div>
+
     <!-- About me -->
     <div
       class="w-full h-full cream-bg flex justify-center items-center"
@@ -69,8 +71,8 @@
     >
       <div class="w-1/2"></div>
       <div class="text-center flex flex-col items-start w-1/2">
-        <h1 class="text-8xl font-kanit brown">About me</h1>
-        <p class="text-lg font-prompt brown text-justify mr-8 mb-4">
+        <h1 class="text-8xl font-kanit black">About me</h1>
+        <p class="text-lg font-prompt black text-justify mr-8 mb-4">
           I was born and grew up in Bangkok, Thailand. I started programming
           with Python in a middle school, Patumwan Demonstration School.
           Currently, I am in grade 12th at Kamnoetvidya Science Academy. I am
@@ -238,9 +240,165 @@
         </div>
       </div>
     </div>
+
     <!-- What I have done -->
-    <div class="w-full h-full orange-bg flex" id="what-i-have-done">
+    <div class="w-full h-full orange-bg flex flex-col" id="what-i-have-done">
       <h1 class="text-8xl font-kanit black ml-16 mt-32">What I have done</h1>
+      <div
+        class="w-full h-full p-16 grid grid-cols-3 gap-8 justify-center items-center"
+      >
+        <!-- Just Chat! -->
+        <div
+          class="h-full rounded-3xl black-bg flex flex-col items-center px-8"
+        >
+          <h1 class="text-center font-dm-mono text-4xl orange mt-8">
+            Just Chat!
+          </h1>
+          <p class="text-based text-justify font-prompt mt-4 cream">
+            I use Flask to developed a Just Chat! website, allowing users to
+            craft notes in a chat format.
+            <a
+              href="http://justchat.pythonanywhere.com/"
+              class="orange underline underline-offset-2"
+              >Try it here.</a
+            >
+          </p>
+        </div>
+        <!-- KVIS SC Website -->
+        <div
+          class="h-full rounded-3xl black-bg flex flex-col items-center px-8"
+        >
+          <h1 class="text-center font-dm-mono text-4xl orange mt-8">
+            KVIS SC Website
+          </h1>
+          <p class="text-based text-justify font-prompt mt-4 cream">
+            I use Express js to developed a KVIS SC website, providing event
+            informations, news, useful links and allowing students to add a
+            comment in comment box.
+            <a
+              href="https://github.com/JediNakDev/KvisStudentCommittee"
+              class="orange underline underline-offset-2"
+              >Find out more.</a
+            >
+          </p>
+        </div>
+        <!-- App Developer -->
+        <div
+          class="h-full rounded-3xl black-bg flex flex-col items-center px-8"
+        >
+          <h1 class="text-center font-dm-mono text-4xl orange mt-8">
+            App Developer
+          </h1>
+          <p class="text-based text-justify font-prompt mt-4 cream">
+            Working as a Flutter developer, creating super app for military
+            students, at Military Student Training Center, Army Region 14,
+            Nawaminthrachinee camp.
+          </p>
+        </div>
+        <!-- Energy and exergy analysis with... -->
+        <button
+          class="btn h-full rounded-3xl black-bg flex flex-col justify-center items-center px-8"
+          id="researchbtn"
+        >
+          <h1 class="text-center font-dm-mono text-5xl orange">Research:</h1>
+          <h1 class="text-center font-dm-mono text-3xl orange">
+            Energy and exergy analysis...
+          </h1>
+        </button>
+        <!-- The Role of Microgrids in ASEAN’s Energy Future -->
+        <div
+          class="h-full rounded-3xl black-bg flex flex-col items-center px-8"
+        >
+          <h1 class="text-center font-dm-mono text-2xl orange mt-8">
+            The Role of Microgrids in ASEAN’s Energy Future
+          </h1>
+          <p class="text-based text-justify font-prompt mt-4 cream">
+            Our team developed data analytic proposals using SAP Analytic Cloud
+            (SAC). We suggested the solution of using micro- grids along with
+            the implementation process, action plan, and predicted results.
+          </p>
+        </div>
+        <!-- More... -->
+        <div
+          class="h-full rounded-3xl black-bg flex flex-col justify-center items-center px-8"
+          id="morebtn"
+        >
+          <h1 class="text-center font-dm-mono text-4xl orange">Want more?</h1>
+          <a
+            class="btn btn-ghost text-center font-dm-mono text-2xl orange underline underline-offset-2"
+            href="https://www.overleaf.com/project/651d923630bae4cd17b83c83"
+            >Here!</a
+          >
+        </div>
+
+        <!-- Dialog -->
+        <dialog
+          class="w-3/4 m-auto cream-bg rounded-3xl p-8"
+          id="researchmodal"
+        >
+          <button
+            class="btn btn-ghost absolute top-4 right-4 black rounded-full"
+            id="researchclose"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+          <h1 class="text-6xl font-nunito-sans mt-8 black">
+            Energy and exergy analysis
+          </h1>
+          <h2 class="text-4xl font-nunito-sans black">
+            with cost-efficiency comparison of modified phase change material
+            (PCM) integrated with solar panel thermal system
+          </h2>
+          <ul class="mt-8">
+            <li class="text-2xl font-prompt black">
+              -> Oral presented at the 18th Siam Physics Congress (SPC2023)
+            </li>
+            <li class="text-2xl font-prompt black">
+              -> Accepted for publication in the Journal of Physics: Conference
+              Series (JPCS).
+            </li>
+          </ul>
+          <p class="text-2xl text-justify font-prompt mr-6 black">
+            This study explores the use of Phase Change Materials (PCM) in solar
+            panels to improve their efficiency and cost-effectiveness. By
+            integrating PCMs, temperature fluctuations are minimized, optimizing
+            power generation. The research involves modeling, simulations, and
+            energy analysis of various PCMs like Paraffin wax and Sodium acetate
+            trihydrate. Temperature and light intensity data are collected in
+            Rayong province, and numerical methods are used to determine
+            temperature values of each layer. The study shows that
+            PCM-integrated solar panels can generate up to 11.1% more power with
+            increased cost-efficiency.
+          </p>
+        </dialog>
+
+        <!-- Script -->
+        <script>
+          const researchbtn = document.getElementById("researchbtn");
+          const researchclose = document.getElementById("researchclose");
+          const researchmodal = document.getElementById("researchmodal");
+
+          researchbtn.addEventListener("click", () => {
+            researchmodal.showModal();
+          });
+          researchclose.addEventListener("click", () => {
+            researchmodal.close();
+          });
+        </script>
+      </div>
     </div>
     <!-- What I can do for you -->
     <div class="w-full h-full lbrown-bg flex" id="what-i-can-do-for-you">
