@@ -16,18 +16,3 @@
 #innerCarousel {
   transform: translateX(-12.5%);
 }
-
-@keyframes slide {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-100%);
-  }
-}
-
-@media (max-width: 1303px) {
-  .tech-slide {
-    animation: 20s slide infinite linear;
-  }
-}
