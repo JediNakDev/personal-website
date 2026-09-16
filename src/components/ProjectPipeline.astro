@@ -1,0 +1,42 @@
+---
+// Reserved for the future MADE BY AI project detail page.
+---
+
+<section class="pipeline" aria-labelledby="pipeline-title">
+  <header>
+    <div>
+      <h2 id="pipeline-title">Market data, from wire to strategy.</h2>
+      <p>Architecture of the Rust market-data service I built. Simplified data flow.</p>
+    </div>
+    <span>MADE BY AI / 2025-2026</span>
+  </header>
+  <div class="pipeline__flow">
+    <div><small>Input</small><strong>2 exchanges</strong><span>L2 order books · 11 symbols</span></div>
+    <b aria-hidden="true">→</b>
+    <div><small>Ingest & normalize</small><strong>Rust service</strong><span>One shared schema</span></div>
+    <b aria-hidden="true">→</b>
+    <div><small>Fan out</small><strong>ZeroMQ</strong><span>Publish / subscribe</span></div>
+    <b aria-hidden="true">→</b>
+    <div><small>Consume</small><strong>Strategy</strong><span>Arbitrage engine</span></div>
+  </div>
+  <p class="pipeline__storage">↳ Tick history → TimescaleDB</p>
+</section>
+
+<style>
+  .pipeline { padding: 2rem; border: 1px solid currentColor; }
+  header { display: flex; justify-content: space-between; gap: 2rem; }
+  h2 { margin: 0; }
+  header p, header > span, small, .pipeline__storage { font-family: monospace; }
+  header > span, small { text-transform: uppercase; letter-spacing: .08em; }
+  .pipeline__flow { display: flex; align-items: center; gap: 1rem; margin-top: 2.5rem; }
+  .pipeline__flow > div { flex: 1; display: grid; gap: .8rem; padding: 1.25rem; border: 1px solid currentColor; }
+  .pipeline__flow strong { font-size: 1.5rem; }
+  .pipeline__storage { margin: 1.5rem 0 0 27%; }
+  @media (max-width: 760px) {
+    header { display: block; }
+    .pipeline__flow { flex-direction: column; }
+    .pipeline__flow > div { width: 100%; }
+    .pipeline__flow > b { transform: rotate(90deg); }
+    .pipeline__storage { margin-left: 0; }
+  }
+</style>

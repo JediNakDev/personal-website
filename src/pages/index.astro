@@ -1,0 +1,840 @@
+---
+import Highlights from "../components/Highlights.astro";
+import { person, roles, projects, skills, education, contact, thesis } from "../data/cv";
+
+const LO = -7; // 100 ns
+const HI = 9; // ~30 years
+const pos = (s: number) => ((Math.log10(s) - LO) / (HI - LO)) * 100;
+
+const ticks = [
+  { s: 1e-7, label: "100 ns" },
+  { s: 1e-6, label: "1 µs" },
+  { s: 1e-5, label: "10 µs" },
+  { s: 1e-4, label: "100 µs" },
+  { s: 1e-3, label: "1 ms" },
+  { s: 1, label: "1 s" },
+  { s: 60, label: "1 min" },
+  { s: 3600, label: "1 hour" },
+  { s: 86400, label: "1 day" },
+  { s: 31557600, label: "1 year" },
+  { s: 1e9, label: "30 years" },
+];
+
+const pins = [
+  { s: 625e-9, v: "625 ns", t: "arbitrage engine, p99", side: "up", hero: true },
+  { s: 99e-6, v: "99 µs", t: "Rust market data fetcher, p99", side: "down" },
+  { s: 0.00045, v: "0.45 ms", t: "CoreStack steady state, p99", side: "up" },
+  { s: (16 / 12) * 31557600, v: "1 y 4 mo", t: "WQ BRAIN research consultant", side: "down" },
+  { s: 21 * 31557600, v: "21 years", t: "my age", side: "up" },
+];
+
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{person.name} - software engineer & quantitative developer</title>
+    <meta name="description" content={thesis} />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400..700&family=Fragment+Mono&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <a href="#axis" class="skip">Skip to the scale</a>
+
+    <header class="masthead">
+      <h1>
+        Pitchayut<br /><span>Ariyachansil</span>
+      </h1>
+      <div class="masthead__side">
+        <button class="theme-toggle" type="button" aria-label="Switch color theme">
+          <span aria-hidden="true">◐</span> Theme
+        </button>
+        <p class="thesis">{thesis}</p>
+        <p class="stat">
+          <span>{person.location}</span>
+          <span>SUTD, GPA {education.gpa}</span>
+          <span>ASEAN Undergraduate Scholarship</span>
+        </p>
+      </div>
+    </header>
+
+    <section class="axis" id="axis" aria-label="Everything, plotted on one logarithmic time axis">
+      <p class="axis__caption">
+        From an arbitrage decision to a career in progress, on a logarithmic time axis.
+        Each order of magnitude is ten times the last.
+      </p>
+
+      <div class="scale">
+        <div class="scale__line" aria-hidden="true"></div>
+        {
+          ticks.map((t) => (
+            <div class="tick" style={`--p:${pos(t.s)}%`}>
+              <span class="tick__mark" />
+              <span class="tick__label">{t.label}</span>
+            </div>
+          ))
+        }
+        {
+          pins.map((p, i) => (
+            <div
+              class:list={["pin", `pin--${p.side}`, { "pin--hero": p.hero, "pin--ghost": false }]}
+              style={`--p:${pos(p.s)}%; --i:${i}`}
+            >
+              <span class="pin__stem" aria-hidden="true" />
+              <span class="pin__dot" aria-hidden="true" />
+              <span class="pin__body">
+                <b>{p.v}</b>
+                <i>{p.t}</i>
+              </span>
+            </div>
+          ))
+        }
+      </div>
+      <p class="axis__legend">
+        <span class="key key--now">measured</span>
+        <span>Benchmarks and calendar durations</span>
+      </p>
+    </section>
+
+    <main>
+      <div class="block"><Highlights /></div>
+      <section class="block" id="experience" aria-labelledby="work">
+        <h2 class="block__title" id="work">Work</h2>
+        {
+          roles.map((r) => (
+              <article class="entry">
+                <div class="entry__meta">
+                  <p class="entry__dates">{r.dates}</p>
+                  <p class="entry__where">{r.where}</p>
+                </div>
+                <div class="entry__main">
+                  <h3>
+                    {r.title}
+                    {r.note && <em> ({r.note})</em>}
+                  </h3>
+                  <p class="entry__org">
+                    {r.orgUrl ? (
+                      <a href={r.orgUrl} target="_blank" rel="noopener">
+                        {r.org}
+                      </a>
+                    ) : (
+                      r.org
+                    )}
+                  </p>
+                  <p class="entry__summary">{r.summary}</p>
+                  <ul>
+                    {r.bullets.map((x) => (
+                      <li>{x}</li>
+                    ))}
+                  </ul>
+                  <p class="chips">
+                    {r.stack.map((s) => (
+                      <span>{s}</span>
+                    ))}
+                  </p>
+                </div>
+              </article>
+          ))
+        }
+      </section>
+
+      <section class="block" aria-labelledby="proj">
+        <h2 class="block__title" id="proj">Projects</h2>
+        {
+          projects.map((p) => (
+              <article class="entry">
+                <div class="entry__meta">
+                  <p class="entry__dates">{p.year}</p>
+                </div>
+                <div class="entry__main">
+                  <h3>{p.name}</h3>
+                  <p class="entry__org">{p.tagline}</p>
+                  {p.award && <p class="entry__award">{p.award}</p>}
+                  <ul>
+                    {p.bullets.map((x) => (
+                      <li>{x}</li>
+                    ))}
+                  </ul>
+                  {p.publicationUrl && <p><a href={p.publicationUrl}>Read publication ↗</a></p>}
+                {p.url && (
+                    <a class="entry__link" href={p.url} target="_blank" rel="noopener">
+                      {p.urlLabel}
+                    </a>
+                  )}
+                </div>
+              </article>
+          ))
+        }
+      </section>
+
+      <section class="block" aria-labelledby="edu">
+        <h2 class="block__title" id="edu">Education</h2>
+        <article class="entry">
+          <div class="entry__meta">
+            <p class="entry__dates">{education.dates}</p>
+            <p class="entry__where">{education.where}</p>
+          </div>
+          <div class="entry__main">
+            <h3>{education.degree}</h3>
+            <p class="entry__org">{education.school}</p>
+            <p class="entry__summary">
+              GPA {education.gpa}. {education.award}.
+            </p>
+            <p class="chips">
+              {education.coursework.map((c) => (
+                <span>{c}</span>
+              ))}
+            </p>
+          </div>
+        </article>
+        <article class="entry">
+          <div class="entry__meta">
+            <p class="entry__dates">{education.exchange.dates}</p>
+            <p class="entry__where">{education.exchange.where}</p>
+          </div>
+          <div class="entry__main">
+            <h3>{education.exchange.note}</h3>
+            <p class="entry__org">{education.exchange.school}</p>
+          </div>
+        </article>
+        <article class="entry">
+          <div class="entry__meta">
+            <p class="entry__dates">{education.upcomingExchange.dates}</p>
+            <p class="entry__where">{education.upcomingExchange.where}</p>
+          </div>
+          <div class="entry__main">
+            <h3>{education.upcomingExchange.note}</h3>
+            <p class="entry__org">{education.upcomingExchange.school}</p>
+            <p class="chips">
+              {education.upcomingExchange.coursework.map((course) => <span>{course}</span>)}
+            </p>
+          </div>
+        </article>
+      </section>
+
+      <section class="block" aria-labelledby="sk">
+        <h2 class="block__title" id="sk">Tools</h2>
+        <dl class="skills">
+          {
+            skills.map((s) => (
+              <div>
+                <dt>{s.group}</dt>
+                <dd>{s.items.join(" · ")}</dd>
+              </div>
+            ))
+          }
+        </dl>
+      </section>
+
+      <section class="block block--contact" aria-labelledby="ct">
+        <h2 class="block__title" id="ct">Get in touch</h2>
+        <p class="contact__lede">{person.seeking}</p>
+        <ul class="contact">
+          {
+            contact.map((c) => (
+              <li>
+                <span>{c.label}</span>
+                <a href={c.href} target="_blank" rel="noopener">
+                  {c.value}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+    </main>
+
+    <footer class="foot">{person.site}</footer>
+
+    <script is:inline>
+      const root = document.documentElement;
+      const themeButton = document.querySelector(".theme-toggle");
+      const savedTheme = localStorage.getItem("theme");
+      if (savedTheme === "light" || savedTheme === "dark") root.dataset.theme = savedTheme;
+      themeButton?.addEventListener("click", () => {
+        const systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        const current = root.dataset.theme || (systemDark ? "dark" : "light");
+        const next = current === "dark" ? "light" : "dark";
+        root.dataset.theme = next;
+        localStorage.setItem("theme", next);
+      });
+    </script>
+
+    <style is:global>
+      :root {
+        --paper: #eef1f0;
+        --ink: #10161a;
+        --grid: #c3d0ce;
+        --mute: #66787c;
+        --signal: #e5006d;
+        --cobalt: #1f4ae0;
+        --wash: rgba(238, 241, 240, 0.86);
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --paper: #0d1418;
+          --ink: #e5eceb;
+          --grid: #26363a;
+          --mute: #8ea2a5;
+          --signal: #ff4f9b;
+          --cobalt: #8ca7ff;
+          --wash: rgba(13, 20, 24, 0.88);
+        }
+      }
+      :root[data-theme="light"] {
+        --paper: #eef1f0;
+        --ink: #10161a;
+        --grid: #c3d0ce;
+        --mute: #66787c;
+        --signal: #e5006d;
+        --cobalt: #1f4ae0;
+        --wash: rgba(238, 241, 240, 0.86);
+      }
+      :root[data-theme="dark"] {
+        --paper: #0d1418;
+        --ink: #e5eceb;
+        --grid: #26363a;
+        --mute: #8ea2a5;
+        --signal: #ff4f9b;
+        --cobalt: #8ca7ff;
+        --wash: rgba(13, 20, 24, 0.88);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: "Newsreader", Georgia, serif;
+        font-size: 17px;
+        line-height: 1.55;
+        -webkit-font-smoothing: antialiased;
+        background-image: linear-gradient(var(--grid) 1px, transparent 1px),
+          linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+        background-size: 88px 88px, 88px 88px;
+        background-position: -1px -1px;
+      }
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background: var(--wash);
+        pointer-events: none;
+        z-index: -1;
+      }
+      a {
+        color: var(--cobalt);
+        text-underline-offset: 3px;
+        text-decoration-thickness: 1px;
+      }
+      :focus-visible {
+        outline: 2px solid var(--signal);
+        outline-offset: 3px;
+      }
+      .skip {
+        position: absolute;
+        left: -9999px;
+        background: var(--signal);
+        color: #fff;
+        padding: 0.6rem 1rem;
+        font-family: "Fragment Mono", monospace;
+        font-size: 13px;
+        z-index: 100;
+      }
+      .skip:focus {
+        left: 0;
+        top: 0;
+      }
+
+      .masthead,
+      .axis,
+      .block,
+      .foot {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding-left: clamp(1rem, 4vw, 3rem);
+        padding-right: clamp(1rem, 4vw, 3rem);
+      }
+      .masthead {
+        display: grid;
+        grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+        gap: clamp(1.5rem, 5vw, 4rem);
+        align-items: end;
+        padding-top: clamp(2.5rem, 7vw, 5rem);
+        padding-bottom: clamp(2rem, 5vw, 3.5rem);
+      }
+      .masthead h1 {
+        font-family: "Familjen Grotesk", system-ui, sans-serif;
+        font-weight: 700;
+        font-size: clamp(2.8rem, 8.2vw, 5.6rem);
+        line-height: 0.92;
+        letter-spacing: -0.045em;
+        margin: 0;
+      }
+      .masthead h1 span {
+        color: var(--mute);
+      }
+      .theme-toggle {
+        display: block;
+        margin: 0 0 1.2rem auto;
+        padding: 0;
+        border: 0;
+        background: transparent;
+        color: var(--mute);
+        font: 11px "Fragment Mono", monospace;
+        letter-spacing: 0.05em;
+        cursor: pointer;
+      }
+      .theme-toggle:hover {
+        color: var(--signal);
+      }
+      .thesis {
+        margin: 0 0 1rem;
+        font-size: clamp(1rem, 1.5vw, 1.18rem);
+        line-height: 1.5;
+        max-width: 44ch;
+      }
+      .stat {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.25rem 1.1rem;
+        margin: 0;
+        font-family: "Fragment Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 0.02em;
+        color: var(--mute);
+      }
+
+      /* ---- the axis ---- */
+      .axis {
+        padding-bottom: clamp(2rem, 5vw, 4rem);
+      }
+      .axis__caption {
+        max-width: 62ch;
+        margin: 0 0 clamp(3rem, 7vw, 5rem);
+        font-size: 1.05rem;
+        font-style: italic;
+        color: var(--mute);
+      }
+      .scale {
+        position: relative;
+        height: 340px;
+        margin-bottom: 1.25rem;
+      }
+      .scale__line {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 50%;
+        height: 1px;
+        background: var(--ink);
+      }
+      .tick {
+        position: absolute;
+        left: var(--p);
+        top: 50%;
+        transform: translateX(-50%);
+      }
+      .tick__mark {
+        position: absolute;
+        left: 50%;
+        top: -5px;
+        width: 1px;
+        height: 11px;
+        background: var(--ink);
+      }
+      .tick__label {
+        position: absolute;
+        top: 12px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-family: "Fragment Mono", monospace;
+        font-size: 10px;
+        color: var(--mute);
+        white-space: nowrap;
+      }
+      .pin {
+        position: absolute;
+        left: var(--p);
+        top: 50%;
+        width: 0;
+        animation: pinin 0.6s cubic-bezier(0.2, 0.8, 0.3, 1) backwards;
+        animation-delay: calc(0.15s + var(--i) * 90ms);
+      }
+      @keyframes pinin {
+        from {
+          opacity: 0;
+          transform: scaleY(0.4);
+        }
+      }
+      .pin__stem {
+        position: absolute;
+        left: 0;
+        width: 1px;
+        background: var(--signal);
+      }
+      .pin__dot {
+        position: absolute;
+        left: -3px;
+        top: -3px;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--signal);
+      }
+      .pin__body {
+        position: absolute;
+        left: 0;
+        width: 12ch;
+        padding-left: 8px;
+        border-left: 1px solid var(--grid);
+      }
+      .pin__body b {
+        display: block;
+        font-family: "Fragment Mono", monospace;
+        font-size: 13px;
+        font-weight: 400;
+        letter-spacing: -0.02em;
+      }
+      .pin__body i {
+        display: block;
+        font-size: 12px;
+        line-height: 1.3;
+        font-style: normal;
+        color: var(--mute);
+        margin-top: 2px;
+      }
+      .pin--up .pin__stem {
+        top: -74px;
+        height: 74px;
+      }
+      .pin--up .pin__body {
+        bottom: 78px;
+      }
+      .pin--down .pin__stem {
+        top: 0;
+        height: 74px;
+      }
+      .pin--down .pin__body {
+        top: 78px;
+      }
+      .pin--hero .pin__dot {
+        left: -5px;
+        top: -5px;
+        width: 11px;
+        height: 11px;
+        box-shadow: 0 0 0 4px rgba(229, 0, 109, 0.16);
+      }
+      .pin--hero .pin__body b {
+        font-size: 22px;
+        letter-spacing: -0.04em;
+        color: var(--signal);
+      }
+      .pin--ghost .pin__dot,
+      .pin--ghost .pin__stem {
+        background: var(--cobalt);
+      }
+      .pin--ghost .pin__dot {
+        background: var(--paper);
+        border: 1px solid var(--cobalt);
+      }
+      .pin--ghost .pin__body b {
+        color: var(--cobalt);
+        text-decoration: line-through;
+        text-decoration-color: rgba(31, 74, 224, 0.5);
+      }
+      .axis__legend {
+        display: flex;
+        gap: 1.25rem;
+        margin: 0;
+        font-family: "Fragment Mono", monospace;
+        font-size: 10px;
+        color: var(--mute);
+      }
+      .key::before {
+        content: "";
+        display: inline-block;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        margin-right: 6px;
+      }
+      .key--now::before {
+        background: var(--signal);
+      }
+      .key--was::before {
+        border: 1px solid var(--cobalt);
+      }
+
+      /* ---- blocks ---- */
+      .block {
+        padding-top: clamp(2.5rem, 6vw, 4rem);
+        padding-bottom: clamp(1rem, 3vw, 2rem);
+      }
+      .block__title {
+        font-family: "Fragment Mono", monospace;
+        font-size: 11px;
+        font-weight: 400;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--signal);
+        margin: 0 0 2rem;
+        padding-bottom: 0.6rem;
+        border-bottom: 1px solid var(--ink);
+      }
+      .entry {
+        display: grid;
+        grid-template-columns: 15.5rem minmax(0, 1fr);
+        gap: clamp(1rem, 4vw, 3rem);
+        padding: 1.75rem 0;
+        border-bottom: 1px solid var(--grid);
+      }
+      .entry__dates {
+        font-family: "Fragment Mono", monospace;
+        font-size: 12px;
+        margin: 0;
+      }
+      .entry__where {
+        margin: 0.15rem 0 0;
+        font-size: 14px;
+        color: var(--mute);
+      }
+      .mini {
+        position: relative;
+        margin-top: 1rem;
+        padding-top: 9px;
+      }
+      .mini__track {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: repeating-linear-gradient(90deg, var(--grid) 0 1px, transparent 1px 12px);
+      }
+      .mini__band {
+        position: absolute;
+        top: 0;
+        left: var(--a);
+        width: var(--w);
+        height: 3px;
+        background: var(--signal);
+      }
+      .mini__note {
+        font-family: "Fragment Mono", monospace;
+        font-size: 10px;
+        color: var(--mute);
+      }
+      .entry__main h3 {
+        margin: 0;
+        font-family: "Familjen Grotesk", system-ui, sans-serif;
+        font-size: clamp(1.25rem, 2.4vw, 1.7rem);
+        font-weight: 600;
+        letter-spacing: -0.02em;
+        line-height: 1.15;
+      }
+      .entry__main h3 em {
+        font-style: normal;
+        font-weight: 400;
+        font-size: 0.62em;
+        color: var(--mute);
+      }
+      .entry__org {
+        margin: 0.3rem 0 0.9rem;
+        font-size: 1.02rem;
+        color: var(--mute);
+      }
+      .entry__award {
+        margin: -0.5rem 0 0.9rem;
+        font-family: "Fragment Mono", monospace;
+        font-size: 11px;
+        color: var(--cobalt);
+      }
+      .entry__summary {
+        margin: 0 0 0.75rem;
+        max-width: 60ch;
+        font-style: italic;
+      }
+      .entry__main ul {
+        margin: 0;
+        padding-left: 1.1rem;
+        max-width: 66ch;
+      }
+      .entry__main li {
+        margin-bottom: 0.4rem;
+        font-size: 0.97rem;
+      }
+      .entry__main li::marker {
+        color: var(--signal);
+      }
+      .entry__link {
+        display: inline-block;
+        margin-top: 0.9rem;
+        font-family: "Fragment Mono", monospace;
+        font-size: 11px;
+        word-break: break-all;
+      }
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.3rem 0.4rem;
+        margin: 1rem 0 0;
+      }
+      .chips span {
+        font-family: "Fragment Mono", monospace;
+        font-size: 10px;
+        color: var(--mute);
+        border: 1px solid var(--grid);
+        padding: 0.24rem 0.5rem;
+      }
+      .skills div {
+        display: grid;
+        grid-template-columns: 9rem minmax(0, 1fr);
+        gap: 1rem;
+        padding: 0.85rem 0;
+        border-bottom: 1px solid var(--grid);
+      }
+      .skills dt {
+        font-family: "Fragment Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--mute);
+      }
+      .skills dd {
+        margin: 0;
+      }
+      .block--contact {
+        padding-bottom: 4rem;
+      }
+      .contact__lede {
+        max-width: 44ch;
+        margin: -1rem 0 1.75rem;
+        font-size: clamp(1.15rem, 2.4vw, 1.5rem);
+        line-height: 1.35;
+      }
+      .contact {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.25rem;
+      }
+      .contact span {
+        display: block;
+        font-family: "Fragment Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--mute);
+        margin-bottom: 0.3rem;
+      }
+      .contact a {
+        font-family: "Fragment Mono", monospace;
+        font-size: 13px;
+        word-break: break-word;
+      }
+      .foot {
+        padding-top: 1.25rem;
+        padding-bottom: 5rem;
+        font-family: "Fragment Mono", monospace;
+        font-size: 10px;
+        color: var(--mute);
+        border-top: 1px solid var(--grid);
+        max-width: 1180px;
+      }
+
+      @media (max-width: 900px) {
+        .masthead {
+          grid-template-columns: 1fr;
+          align-items: start;
+        }
+        .entry {
+          grid-template-columns: 1fr;
+          gap: 0.9rem;
+        }
+        .mini {
+          max-width: 320px;
+        }
+        /* the axis turns vertical: same scale, more room for labels */
+        .scale {
+          height: 1450px;
+          margin-left: 5.5rem;
+        }
+        .scale__line {
+          left: 0;
+          top: 0;
+          bottom: 0;
+          right: auto;
+          width: 1px;
+          height: auto;
+        }
+        .tick {
+          left: 0;
+          top: var(--p);
+          transform: none;
+        }
+        .tick__mark {
+          left: -5px;
+          top: 0;
+          width: 11px;
+          height: 1px;
+        }
+        .tick__label {
+          top: -6px;
+          left: auto;
+          right: calc(100% + 10px);
+          transform: none;
+        }
+        .pin {
+          left: 0;
+          top: var(--p);
+        }
+        .pin__stem,
+        .pin--up .pin__stem,
+        .pin--down .pin__stem {
+          top: 0;
+          left: 0;
+          width: 26px;
+          height: 1px;
+        }
+        .pin__body,
+        .pin--up .pin__body,
+        .pin--down .pin__body {
+          top: -8px;
+          bottom: auto;
+          left: 34px;
+          width: calc(100vw - 160px);
+          border-left: 0;
+          padding-left: 0;
+        }
+      }
+      @media (min-width: 901px) {
+        .pin:nth-last-child(2) .pin__body { top: 110px; }
+        .pin:nth-last-child(2) .pin__stem { height: 106px; }
+        .pin:last-child .pin__body { bottom: 125px; }
+        .pin:last-child .pin__stem { top: -121px; height: 121px; }
+        .scale { height: 460px; }
+      }
+      @media (max-width: 900px) {
+        .pin:nth-last-child(2) .pin__body { top: -8px; }
+        .pin:last-child .pin__body { top: 46px; }
+        .pin:last-child .pin__stem { height: 54px; background: transparent; border-right: 1px solid var(--signal); border-bottom: 1px solid var(--signal); }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .pin {
+          animation: none;
+        }
+      }
+    </style>
+  </body>
+</html>

@@ -87,18 +87,19 @@
         PITCHAYUT ARIYACHANSIL
       </h1>
       <h6 class="pl-1 font-serif md:text-lg lg:text-2xl text-indigo-900">
-        Quantitative Researcher & Developer | CS Undergrad @ SUTD | Python &
-        Rust
+        Quantitative Researcher & Developer | CS Undergrad @ SUTD | C++, Rust &
+        Python
       </h6>
       <p
         class="pl-1 pt-4 text-sm lg:text-base text-indigo-900 lg:w-4/5"
       >
         Computer Science undergraduate at SUTD (4.8/5.0 GPA) specializing in
-        FinTech. Currently a Quantitative Research Consultant at WorldQuant BRAIN
-        developing high-Sharpe alphas, with prior experience optimizing
-        low-latency execution systems in Rust. I combine mathematical modeling
-        with high-performance computing to solve complex market challenges.
-        Actively seeking Quantitative Research internships.
+        FinTech. Currently a Quantitative Research Consultant at WorldQuant
+        BRAIN, with prior experience building low-latency trading systems in
+        Rust and a C++17 NASDAQ ITCH limit order book sustaining 3.48M msgs/s.
+        I combine mathematical modeling with high-performance computing to
+        solve complex market challenges. Actively seeking Quantitative Research
+        / Developer internships.
       </p>
       <div class="flex mt-4">
         <a href="#work">
@@ -155,10 +156,11 @@
             </h4>
           </div>
           <p class="text-justify text-xs lg:text-sm text-purple-100 lg:w-4/5">
-            Building and deploying multi-dataset alpha signals using
-            fundamentals, options implied volatility, and news sentiment.
-            Designed a Sharpe 2.03 sentiment-regime-conditioned alpha and
-            implemented VWAP mean-reversion strategies with liquidity gates.
+            Built a template-based alpha generation pipeline producing 100K+
+            candidates across US/CHN/EUR/GLB; 63 signals accepted and 14
+            pyramids completed across Fundamental, Model, Price-Volume, News,
+            and Sentiment themes. Best alpha: Sharpe 2.21, fitness 2.05, 13.4%
+            turnover, 3.0% drawdown OOS (USA/TOP3000/D1).
           </p>
         </div>
         <div>
@@ -174,10 +176,12 @@
             </h4>
           </div>
           <p class="text-justify text-xs lg:text-sm text-purple-100 lg:w-4/5">
-            Architected a market data feed using Rust and ZeroMQ (Pub/Sub) to
-            stream real-time ticks into TimescaleDB. Re-engineered the trading
-            engine in Rust, slashing execution latency by ~79% (from 170μs to
-            &lt;45μs).
+            Built a Rust L2 order-book aggregator across 2 CEXs / 11 symbols,
+            sustaining 110 msgs/s into a ZeroMQ Pub/Sub mesh and persisting tick
+            history to TimescaleDB. Migrated the Python arbitrage engine to
+            Rust, cutting p50 latency by ~89% (10.17μs → 1.75μs, p99 1.88μs)
+            via async I/O parallelism, cache-aware layout, and HTTP connection
+            pooling.
           </p>
         </div>
         <div>
@@ -340,13 +344,13 @@
               <h3 class="pt-4 text-4xl font-black text-rose-800">
                 Alpha Signal Research
               </h3>
-              <h4 class="relative -top-1√ text-lg text-rose-700">@WorldQuant BRAIN</h4>
+              <h4 class="relative -top-1 text-lg text-rose-700">@WorldQuant BRAIN</h4>
               <p class="text-justify font-serif text-rose-900 hidden md:block">
-                Built and deployed multi-dataset alpha signals combining
-                fundamentals, options implied volatility, and news sentiment.
-                Designed a Sharpe 2.03 sentiment-regime-conditioned alpha with
-                60-day news filter and 8.3% turnover. Implemented VWAP
-                mean-reversion strategies achieving 20.8% return (in-sample).
+                Built a template-based alpha generation pipeline producing
+                100K+ candidates across US/CHN/EUR/GLB; 63 signals accepted and
+                14 pyramids completed across Fundamental, Model, Price-Volume,
+                News, and Sentiment themes. Best alpha: Sharpe 2.21, fitness
+                2.05, 13.4% turnover, 3.0% drawdown OOS (USA/TOP3000/D1).
               </p>
             </div>
             <div class="w-16"></div>
@@ -357,13 +361,14 @@
               <h3 class="pt-4 text-4xl font-black text-rose-800">
                 Spatial Arbitrage Engine
               </h3>
-              <h4 class="relative -top-1√ text-lg text-rose-700">@MADE BY AI</h4>
+              <h4 class="relative -top-1 text-lg text-rose-700">@MADE BY AI</h4>
               <p class="text-justify font-serif text-rose-900 hidden md:block">
-                Architected a market data feed using Rust and ZeroMQ (Pub/Sub)
-                to stream real-time ticks into TimescaleDB. Prototyped
-                cross-exchange crypto spatial arbitrage strategy in Python with
-                Docker. Re-engineered trading engine in Rust, slashing execution
-                latency by ~79% (from 170μs to &lt;45μs).
+                Built a Rust L2 order-book aggregator across 2 CEXs / 11
+                symbols, sustaining 110 msgs/s into a ZeroMQ Pub/Sub mesh and
+                persisting tick history to TimescaleDB. Migrated the Python
+                arbitrage engine to Rust, cutting p50 latency by ~89%
+                (10.17μs → 1.75μs, p99 1.88μs) via async I/O parallelism,
+                cache-aware layout, and HTTP connection pooling.
               </p>
             </div>
             <div class="w-16"></div>
@@ -418,17 +423,23 @@
           <div class="flex h-full w-[12.5%]">
             <div class="w-16"></div>
             <div class="flex flex-1 flex-col items-center bg-purple-200 px-4">
-              <h3 class="pt-4 text-4xl font-black text-rose-800">
-                License Manager
-              </h3>
+              <a
+                class="pt-4 text-2xl md:text-4xl font-black text-rose-800"
+                href="https://github.com/JediNakDev/lob"
+                target="_blank"
+              >
+                L3 Limit Order Book (C++17)
+              </a>
               <h4 class="relative -top-1 text-lg text-rose-700">
-                @Unixdev Co., Ltd
+                Personal Project
               </h4>
               <p class="text-justify font-serif text-rose-900 hidden md:block">
-                Developed an automated password reset workflow as a core feature
-                of the university software-license reservation platform. Built
-                with Django + DRF, handling reset password automation, email
-                gateway integration, and Docker deployment with Kubernetes.
+                Engineered a C++17 NASDAQ ITCH 5.0 limit order book sustaining
+                3.48M msgs/s and scaling to 14.3M live orders at 1.06M msgs/s.
+                Hit 16–47 ns per Add/Match/Cancel (63.6M ops/s) via tick-indexed
+                ladders, intrusive level queues, and an O(1) order-id hash.
+                Lock-free hot path with object pools, cache-line-packed structs,
+                and pinned-core sharding over SPSC queues.
               </p>
             </div>
             <div class="w-16"></div>
@@ -437,22 +448,23 @@
             <div class="w-16"></div>
             <div class="flex flex-1 flex-col items-center bg-purple-200 px-4">
               <a
-                class="pt-4 text-xl md:text-4xl font-black text-rose-800"
-                href="https://github.com/JediNakDev/history-pricing-model"
+                class="pt-4 text-2xl md:text-4xl font-black text-rose-800"
+                href="https://github.com/JediNakDev/skill-sage-ai"
                 target="_blank"
               >
-                History Pricing Model
+                AI Resume-Job Skill Gap Analyzer
               </a>
               <h4 class="text-lg text-rose-700 leading-none">
-                Personal Project
+                Huawei Cloud Competition 2024 · Top 25
               </h4>
               <p
                 class="mt-2 text-justify font-serif text-rose-900 hidden md:block"
               >
-                Prices options directly from empirical market data instead of 
-                simulated paths (e.g., Heston/Monte Carlo). Estimates payoff using 
-                historical return distributions with lower compute cost and reduced 
-                model misspecification risk. Built with Python and Jupyter.
+                Full-stack Next.js + tRPC app that analyzes a resume against a
+                job description and recommends targeted skill upgrades.
+                Deployed on Huawei Cloud: ECS + RDS PostgreSQL inside a VPC
+                with public/private subnet isolation behind an EIP. Advanced
+                to Round 2 (top 25 teams).
               </p>
             </div>
             <div class="w-16"></div>
@@ -463,13 +475,13 @@
               <h3 class="pt-4 text-4xl font-black text-rose-800">
                 Alpha Signal Research
               </h3>
-              <h4 class="relative -top-1√ text-lg text-rose-700">@WorldQuant BRAIN</h4>
+              <h4 class="relative -top-1 text-lg text-rose-700">@WorldQuant BRAIN</h4>
               <p class="text-justify font-serif text-rose-900 hidden md:block">
-                Built and deployed multi-dataset alpha signals combining
-                fundamentals, options implied volatility, and news sentiment.
-                Designed a Sharpe 2.03 sentiment-regime-conditioned alpha with
-                60-day news filter and 8.3% turnover. Implemented VWAP
-                mean-reversion strategies achieving 20.8% return (in-sample).
+                Built a template-based alpha generation pipeline producing
+                100K+ candidates across US/CHN/EUR/GLB; 63 signals accepted and
+                14 pyramids completed across Fundamental, Model, Price-Volume,
+                News, and Sentiment themes. Best alpha: Sharpe 2.21, fitness
+                2.05, 13.4% turnover, 3.0% drawdown OOS (USA/TOP3000/D1).
               </p>
             </div>
             <div class="w-16"></div>
@@ -480,13 +492,14 @@
               <h3 class="pt-4 text-4xl font-black text-rose-800">
                 Spatial Arbitrage Engine
               </h3>
-              <h4 class="relative -top-1√ text-lg text-rose-700">@MADE BY AI</h4>
+              <h4 class="relative -top-1 text-lg text-rose-700">@MADE BY AI</h4>
               <p class="text-justify font-serif text-rose-900 hidden md:block">
-                Architected a market data feed using Rust and ZeroMQ (Pub/Sub)
-                to stream real-time ticks into TimescaleDB. Prototyped
-                cross-exchange crypto spatial arbitrage strategy in Python with
-                Docker. Re-engineered trading engine in Rust, slashing execution
-                latency by ~79% (from 170μs to &lt;45μs).
+                Built a Rust L2 order-book aggregator across 2 CEXs / 11
+                symbols, sustaining 110 msgs/s into a ZeroMQ Pub/Sub mesh and
+                persisting tick history to TimescaleDB. Migrated the Python
+                arbitrage engine to Rust, cutting p50 latency by ~89%
+                (10.17μs → 1.75μs, p99 1.88μs) via async I/O parallelism,
+                cache-aware layout, and HTTP connection pooling.
               </p>
             </div>
             <div class="w-16"></div>

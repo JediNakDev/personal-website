@@ -1,0 +1,18 @@
+---
+import { highlights, benchmarkContext } from '../data/cv';
+---
+<section class="highlights" aria-labelledby="selected-work">
+  <h2 id="selected-work">Selected engineering work</h2>
+  <div class="highlights-grid">
+    {highlights.map(h => <article>
+      <h3>{h.name}</h3>
+      <p class="highlight-number">{h.value} <span>{h.unit}</span></p>
+      <p>{h.description}</p>
+      <p class="highlight-context">{h.context}</p>
+    </article>)}
+  </div>
+  <p class="benchmark-context">{benchmarkContext}</p>
+</section>
+<style>
+.highlights{max-width:1180px;margin:0 auto 70px;padding:30px 0}.highlights h2{font-size:25px;margin:0 0 25px}.highlights-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px}.highlights-grid article{border-top:1px solid currentColor;padding-top:20px;min-width:0}.highlights h3{font-size:17px;letter-spacing:0;margin:0}.highlight-number{font-size:40px;line-height:1.2;margin:20px 0;letter-spacing:-.04em}.highlight-number span{font-size:12px;letter-spacing:0;white-space:nowrap}.highlights article>p:not(.highlight-number){font-size:14px;line-height:1.65}.highlights .highlight-context,.benchmark-context{font-size:11px;line-height:1.6;opacity:.8}.benchmark-context{margin-top:25px}@media(max-width:800px){.highlights-grid{grid-template-columns:1fr;gap:20px}.highlights{margin-bottom:40px}.highlight-number{margin:12px 0}}
+</style>
