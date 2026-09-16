@@ -22,12 +22,12 @@ export const benchmarkContext = "All benchmarks are done on a local machine, Mac
 
 export const highlights = [
   {
-    name: "CoreStack - Tetrish",
+    name: "CoreStack / Tetrish",
     value: "0.45 ms",
     unit: "p99",
     description: "p99 0.45 ms at 2,540 req/s, with zero dropped requests.",
     context: "254 concurrent TCP clients at 10 req/s each.",
-    href: "https://github.com/JediNakDev/corestack",
+    href: "/projects/corestack/",
   },
   {
     name: "WQ BRAIN",
@@ -36,22 +36,24 @@ export const highlights = [
     description:
       "Simulated 228,549 alphas and submitted 304 signals. The best alpha reached 2.21 out-of-sample Sharpe and 2.05 out-of-sample fitness.",
     context: "WorldQuant BRAIN Genius leaderboard, Q2 2026.",
-    href: "#experience",
+    href: "/work/wq-brain/",
   },
   {
-    name: "QD - MADE BY AI",
-    value: "792 ns",
-    unit: "p99.9 decision latency · -74%",
+    name: "QD: MADE BY AI",
+    value: "709 ns",
+    unit: "p99.9 decision latency · -92.7%",
     description:
-      "Reduced tick-to-decision p99.9 latency at order-book depth 5 from 3,000 ns to 792 ns.",
+      "Reduced tick-to-decision p99.9 latency at order-book depth 5 from 9,666 ns to 709 ns.",
     context: "Arbitrage engine, measured after 50,000 warmup iterations.",
-    href: "#experience",
+    href: "/work/made-by-ai/",
   },
 ];
 
 export type Role = {
   org: string;
   orgUrl?: string;
+  /** Internal detail page. Present only for roles that have one. */
+  pageUrl?: string;
   title: string;
   note?: string;
   where: string;
@@ -70,7 +72,6 @@ export const roles: Role[] = [
     org: "CyberSG R&D Programme Office",
     orgUrl: "https://www.ntu.edu.sg/crpo",
     title: "Full Stack Software Engineer Intern",
-    note: "LLM & simulation tooling",
     where: "Singapore",
     start: "2026-09",
     end: "2026-12",
@@ -78,16 +79,14 @@ export const roles: Role[] = [
     current: true,
     lane: "work",
     summary:
-      "Rebuilding a production threat-modeling app around composable subsystems, without breaking the projects already in it.",
-    bullets: [
-      "Refactoring a production web application: new frontend workflows and reusable UI components for a subsystem-based threat-modeling architecture.",
-      "Redesigning the database schema so a project can hold several composable subsystems, while legacy projects and their users keep working.",
-    ],
-    stack: ["TypeScript", "PostgreSQL", "LLM tooling"],
+      "Rebuilding a production threat-modeling app around composable subsystems while maintaining legacy projects.",
+    bullets: [],
+    stack: ["React", "Django", "MongoDB"],
   },
   {
     org: "WorldQuant BRAIN",
     orgUrl: "https://www.worldquantbrain.com/",
+    pageUrl: "/work/wq-brain",
     title: "Quantitative Research Consultant",
     where: "Singapore, remote",
     start: "2025-05",
@@ -96,7 +95,7 @@ export const roles: Role[] = [
     current: true,
     lane: "research",
     summary:
-      "I built an end-to-end Python pipeline that generates alphas, backtests them through the WorldQuant BRAIN API, optimises variables with a genetic algorithm, and submits the top performers.",
+      "Built an end-to-end Python pipeline that generates alphas, backtests them through the WorldQuant BRAIN API, optimises variables with a genetic algorithm, and submits the top performers.",
     bullets: [
       "Simulated 228,549 alphas and submitted 304 signals; the best alpha reached 2.21 out-of-sample Sharpe and 2.05 out-of-sample fitness.",
       "Ranked #1 in Singapore on the Genius leaderboard in Q2 2026.",
@@ -105,17 +104,19 @@ export const roles: Role[] = [
   },
   {
     org: "MADE BY AI Co., Ltd.",
+    pageUrl: "/work/made-by-ai",
     title: "Quantitative Developer Intern",
     where: "Thailand, remote",
     start: "2025-09",
     end: "2026-01",
     dates: "Sept 2025 - Jan 2026",
     lane: "work",
-    summary: "I first built a POC for cryptocurrency arbitrage using Python to verify that the concept was real and could be profitable.",
+    summary:
+      "Built a real-time market data service in Rust that ingests L2 order books (depth 20) from 2 crypto exchanges across 11 pairs, publishes the data over ZeroMQ Pub/Sub, and persists it to TimescaleDB; paired with an arbitrage engine that consumes the ZeroMQ feed, makes a decision, and fires an order.",
     bullets: [
-      "I then built a module, a real-time market data service in Rust, to ingest L2 order books (top 20; API limit) from 2 crypto exchanges across 11 pairs of interest. The data was then published to ZeroMQ Pub/Sub (to the trading engine) and persisted through TimescaleDB.",
-      "Finally, I migrated the arbitrage POC I built at first to Rust and optimised for lower latency."
-],
+      "Timed the fetcher's tick-to-publish path at 74 µs p50 and 99 µs p99, with the p99.9 tail held to 120 µs.",
+      "Cut the engine's tick-to-decision p99.9 at depth 5 from 9,666 ns to 709 ns, a 92.7% drop, by taking the hot path from 36 allocations down to zero.",
+    ],
     stack: ["Rust", "Tokio", "ZeroMQ", "TimescaleDB"],
   },
   {
@@ -128,35 +129,16 @@ export const roles: Role[] = [
     dates: "March - Aug 2024",
     lane: "work",
     summary:
-      "A merch drop is a concurrency problem wearing a storefront. Limited stock, everyone arriving at once.",
-    bullets: [
-      "Built the DRF API for the HoYo FEST 2024 store with HoYoverse as the client, specified to handle 2,000+ concurrent users.",
-      "Used row-level locks inside atomic transactions to stop oversell races on limited-stock drops.",
-    ],
+      "Built the DRF API behind the HoYo FEST 2024 store, with HoYoverse as the client, specced to hold 2,000+ concurrent users through the drop.",
+    bullets: [],
     stack: ["Django REST Framework", "PostgreSQL", "Celery"],
-  },
-  {
-    org: "Association of Thai Students in Singapore",
-    orgUrl: "https://www.atsis.org/",
-    title: "Head of Information Technology",
-    note: "promoted from full-stack developer",
-    where: "Singapore, remote",
-    start: "2024-09",
-    end: "2026-08",
-    dates: "Sept 2024 - Aug 2026",
-    lane: "lead",
-    summary:
-      "Two years leading the volunteer engineering team behind the membership portal and newsletter.",
-    bullets: [
-      "Led 10+ developers across the membership portal and the newsletter system.",
-      "Migrated the legacy API to tRPC for end-to-end type safety, which killed a recurring class of client/server contract bugs.",
-    ],
-    stack: ["TypeScript", "tRPC", "Next.js"],
   },
 ];
 
 export type Project = {
   name: string;
+  /** Internal detail page. Present only for projects that have one. */
+  pageUrl?: string;
   year: string;
   tagline: string;
   url?: string;
@@ -169,15 +151,15 @@ export type Project = {
 
 export const projects: Project[] = [
   {
-    "name": "CoreStack - Tetrish",
+    "name": "CoreStack / Tetrish",
+    "pageUrl": "/projects/corestack",
     "year": "2026",
-    "tagline": "Tetrish is a multiplayer terminal-based Tetris game we built from scratch in a group of three.",
+    "tagline": "Wrote a shared C systems layer (UNIX-datagram logging daemon, HMAC-SHA256 token auth, stream-socket and pipe DB access) used by two separate applications, a multiplayer Tetris server and an e-voting system, and load-tested it at 254 concurrent TCP clients at 10 req/s, sustaining throughput with no deadlocks, leaks, or crashes.",
     "url": "https://github.com/JediNakDev/corestack",
     "urlLabel": "github.com/JediNakDev/corestack",
     "bullets": [
-      "We also needed to build another app where we shared core libraries to demonstrate software architecture skills.",
-      "I owned a custom shell, UNIX-datagram logging daemon, HMAC-SHA256 token auth, stream-socket and pipe DB access.",
-      "I also wrote a load test, held 254 TCP clients at 10 req/s, and made sure the program ran without deadlock, leak, or crash."
+      "Held steady state at 254 concurrent clients pushing 10 req/s each (2,540 req/s) at 0.3 ms p50, 0.45 ms p99, and 0.55 ms p99.9, without dropping a request.",
+      "Found the saturation knee near 30k req/s, past which p50 degrades by more than an order of magnitude."
     ],
     "stack": [
       "C",
@@ -188,14 +170,11 @@ export const projects: Project[] = [
   {
     "name": "Coupled ODE Simulation Engine",
     "year": "2023",
-    "tagline": "Developed a Python numerical simulator solving coupled ODEs via custom time-stepping and matrix-based state propagation; produced trajectory analytics for cost/exergy efficiency across PCM materials.",
+    "tagline": "Wrote a Python simulator that solves coupled ODEs with custom time-stepping and matrix-based state propagation, then turned the resulting trajectories into cost and exergy efficiency comparisons across PCM materials.",
     "url": "https://github.com/JediNakDev/coupled-ode-sim",
     "urlLabel": "github.com/JediNakDev/coupled-ode-sim",
     "publicationUrl": "https://doi.org/10.1088/1742-6596/2653/1/012038",
-    "bullets": [
-      "Published in Journal of Physics: Conference Series (2023); DOI: 10.1088/1742-6596/2653/1/012038.",
-      "Published while in high school."
-    ],
+    "bullets": [],
     "stack": [
       "Python",
       "Numerical simulation"
@@ -206,7 +185,7 @@ export const projects: Project[] = [
 export const education = {
   school: "Singapore University of Technology and Design",
   degree: "B.Eng. Computer Science and Design",
-  dates: "2024 - May 2028",
+  dates: "Sept 2024 - May 2028",
   where: "Singapore",
   gpa: "4.86 / 5.00",
   award: "ASEAN Undergraduate Scholarship",

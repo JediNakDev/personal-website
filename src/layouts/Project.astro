@@ -1,0 +1,28 @@
+---
+import { person, benchmarkContext } from '../data/cv';
+import ThemeInit from '../components/ThemeInit.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
+import '../styles/project.css';
+interface Props { title: string; description: string; benchmark?: boolean; }
+const { title, description, benchmark = true } = Astro.props;
+const pages = [['CoreStack', '/projects/corestack/'], ['WQ BRAIN', '/work/wq-brain/'], ['MADE BY AI', '/work/made-by-ai/']];
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" /><ThemeInit />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title} - {person.name}</title><meta name="description" content={description} />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400..700&family=Fragment+Mono&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <a class="skip" href="#content">Skip to content</a>
+  <div class="page">
+    <header class="topbar"><a href="/">← Home</a><nav aria-label="Projects">{pages.map(([label, href]) => <a href={href} aria-current={Astro.url.pathname.replace(/\/$/, '') === href.replace(/\/$/, '') ? 'page' : undefined}>{label}</a>)}</nav><ThemeToggle /></header>
+    <main id="content"><header class="intro"><h1>{title}</h1><p>{description}</p><slot name="intro" /></header><slot /></main>
+    {benchmark && <footer>{benchmarkContext}</footer>}
+  </div>
+</body>
+</html>

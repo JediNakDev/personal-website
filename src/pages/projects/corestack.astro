@@ -1,0 +1,16 @@
+---
+import Project from '../../layouts/Project.astro';
+import LatencyChart from '../../components/LatencyChart.astro';
+const tail = [[32,.28,.38,.56],[128,.32,.40,.55],[254,.32,.44,.53]];
+const knee = [[16000,.36,.69,.82],[19200,.44,.84,1.37],[23040,.59,1.13,1.79],[27648,.85,3.10,5.31],[33178,4.09,20.98,26.94],[33592,8.51,24.94,32.03],[34007,9.87,71.17,83.75],[36495,76.39,118.66,132.67]];
+const series = (rows:number[][]) => ['p50','p99','p99.9'].map((name,i)=>({name,values:rows.map(r=>r[i+1])}));
+---
+<Project title="CoreStack / Tetrish" description="A multiplayer terminal Tetris game, built from scratch in a team of three. We also built a second app with shared core libraries to demonstrate software architecture.">
+  <p slot="intro">I owned the custom shell, UNIX-datagram logging daemon, HMAC-SHA256 token authentication, and database access over stream sockets and pipes.</p>
+  <section aria-label="Architecture"><h2>Shared core</h2><p class="note">Tetrish + second app → shared core libraries</p><ul class="flow modules"><li><strong>Custom shell</strong></li><li><strong>Token authentication</strong><small>HMAC-SHA256</small></li><li><strong>Database access</strong><small>Stream sockets · pipes</small></li><li><strong>Logging daemon</strong><small>UNIX datagrams</small></li></ul></section>
+  <section><h2>Load test</h2><p>I wrote the load test and held 254 TCP clients at 10 requests per second each, with no observed deadlock, leak, or crash.</p><dl class="metrics"><div><dt>Steady-state throughput</dt><dd>2,540 req/s</dd></div><div><dt>p50 / p99 / p99.9</dt><dd>0.3 / 0.45 / 0.55 <small>ms</small></dd></div><div><dt>Dropped requests</dt><dd>0</dd></div></dl></section>
+  <div class="two-col">
+    <section class="panel"><h2>Tail latency</h2><p class="note">Fixed 2,540 req/s; only the client count changes.</p><LatencyChart title="Tail latency stays below 0.6 ms as client count increases" x={tail.map(r=>r[0])} series={series(tail)} max={.6} unit="ms" xLabel="clients"/><div class="table-scroll"><table><thead><tr>{['Clients','p50','p99','p99.9'].map(h=><th scope="col">{h}</th>)}</tr></thead><tbody>{tail.map(row=><tr>{row.map((v,i)=><td>{i?v.toFixed(2):v}</td>)}</tr>)}</tbody></table></div></section>
+    <section class="panel"><h2>Saturation knee</h2><p class="note">Roughly 30k req/s. SLO: p99 ≤ 25 ms.</p><LatencyChart title="Latency rises sharply beyond roughly 30,000 requests per second" x={knee.map(r=>r[0])} series={series(knee)} max={140} unit="ms" xLabel="offered req/s" threshold={25} enableLog/><details><summary>All 8 measurements · ms</summary><div class="table-scroll"><table><thead><tr>{['Req/s','p50','p99','p99.9','SLO'].map(h=><th scope="col">{h}</th>)}</tr></thead><tbody>{knee.map(row=><tr>{row.map((v,i)=><td>{i?v.toFixed(2):v.toLocaleString('en-US')}</td>)}<td class:list={{fail:row[2]>25}}>{row[2]>25?'fail':'pass'}</td></tr>)}</tbody></table></div></details></section>
+  </div>
+</Project>

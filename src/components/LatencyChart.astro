@@ -1,0 +1,122 @@
+---
+interface Props { title: string; x: number[]; series: { name: string; values: number[] }[]; max: number; unit: string; xLabel: string; threshold?: number; enableLog?: boolean; }
+const { title, x, series, max, unit, xLabel, threshold, enableLog = false } = Astro.props;
+const opacity = [.45, .72, 1];
+const px = (v:number) => 54 + (v-x[0])/(x[x.length-1]-x[0])*510;
+const py = (v:number) => 204-v/max*176;
+const logMin = .25;
+const pyLog = (v:number) => 204-(Math.log10(v)-Math.log10(logMin))/(Math.log10(max)-Math.log10(logMin))*176;
+const logTicks = [.25, 1, 5, 25, 125].filter(v => v <= max);
+---
+<figure class="latency-chart" data-latency-chart>
+  <div class="chart-head">
+    <div class="legend">{series.map((s,i)=><span style={`--series:var(--signal);--series-opacity:${opacity[i]}`}>{s.name}</span>)}</div>
+    {enableLog && <div class="scale-toggle" role="group" aria-label="Latency scale"><button type="button" aria-pressed="true" data-scale="linear">Linear</button><button type="button" aria-pressed="false" data-scale="log">Log</button></div>}
+  </div>
+  <svg class="chart" viewBox="0 0 600 255" role="img" aria-label={title}>
+    <text x="5" y="14">{unit}</text>
+    <g data-chart-scale="linear">{[0,.25,.5,.75,1].map(f=><g><line class="grid" x1="54" x2="564" y1={py(max*f)} y2={py(max*f)} /><text x="44" y={py(max*f)+4} text-anchor="end">{Number((max*f).toFixed(2))}</text></g>)}</g>
+    {enableLog && <g data-chart-scale="log" hidden>{logTicks.map(v=><g><line class="grid" x1="54" x2="564" y1={pyLog(v)} y2={pyLog(v)} /><text x="44" y={pyLog(v)+4} text-anchor="end">{v}</text></g>)}</g>}
+    {(x.length < 5 ? x : Array.from({length: 5}, (_, i) => x[0] + (x[x.length - 1] - x[0]) * i / 4)).map(v=><text x={px(v)} y="226" text-anchor="middle">{v>=1000 ? `${(v/1000).toFixed(1)}k`:v}</text>)}
+    {threshold !== undefined && <><g data-chart-scale="linear"><line x1="54" x2="564" y1={py(threshold)} y2={py(threshold)} stroke="var(--ink)" stroke-dasharray="5 4"/><text x="560" y={py(threshold)-7} text-anchor="end">SLO {threshold} {unit}</text></g>{enableLog && <g data-chart-scale="log" hidden><line x1="54" x2="564" y1={pyLog(threshold)} y2={pyLog(threshold)} stroke="var(--ink)" stroke-dasharray="5 4"/><text x="560" y={pyLog(threshold)-7} text-anchor="end">SLO {threshold} {unit}</text></g>}</>}
+    <g data-chart-scale="linear" data-chart-layer="series">{series.map((s,i)=><g opacity={opacity[i]}><polyline points={s.values.map((v,j)=>`${px(x[j])},${py(v)}`).join(' ')} fill="none" stroke="var(--signal)" stroke-width="2.5"/>{s.values.map((v,j)=><circle cx={px(x[j])} cy={py(v)} r="3" fill="var(--signal)"><title>{s.name}: {v} {unit}, {x[j]} {xLabel}</title></circle>)}</g>)}</g>
+    {enableLog && <g data-chart-scale="log" data-chart-layer="series" hidden>{series.map((s,i)=><g opacity={opacity[i]}><polyline points={s.values.map((v,j)=>`${px(x[j])},${pyLog(v)}`).join(' ')} fill="none" stroke="var(--signal)" stroke-width="2.5"/>{s.values.map((v,j)=><circle cx={px(x[j])} cy={pyLog(v)} r="3" fill="var(--signal)"><title>{s.name}: {v} {unit}, {x[j]} {xLabel}</title></circle>)}</g>)}</g>}
+    <text x="310" y="249" text-anchor="middle">{xLabel}</text>
+  </svg>
+</figure>
+<script>
+  document.querySelectorAll<HTMLElement>('[data-latency-chart]').forEach(chart => {
+    const buttons = [...chart.querySelectorAll<HTMLButtonElement>('[data-scale]')];
+    const groups = [...chart.querySelectorAll<SVGGElement>('[data-chart-scale]')];
+    const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+
+    buttons.forEach(button => button.addEventListener('click', async () => {
+      const nextScale = button.dataset.scale;
+      const currentButton = buttons.find(item => item.getAttribute('aria-pressed') === 'true');
+      const currentScale = currentButton?.dataset.scale;
+      if (!nextScale || nextScale === currentScale) return;
+
+      const outgoing = groups.filter(group => group.dataset.chartScale === currentScale);
+      const incoming = groups.filter(group => group.dataset.chartScale === nextScale);
+      const outgoingSeries = outgoing.find(group => group.dataset.chartLayer === 'series');
+      const incomingSeries = incoming.find(group => group.dataset.chartLayer === 'series');
+      const outgoingAxis = outgoing.filter(group => group !== outgoingSeries);
+      const incomingAxis = incoming.filter(group => group !== incomingSeries);
+      buttons.forEach(item => {
+        item.setAttribute('aria-pressed', String(item === button));
+        item.disabled = true;
+      });
+      incomingAxis.forEach(group => group.removeAttribute('hidden'));
+
+      if (reducedMotion.matches) {
+        outgoing.forEach(group => group.setAttribute('hidden', ''));
+        incoming.forEach(group => group.removeAttribute('hidden'));
+        buttons.forEach(item => item.disabled = false);
+        return;
+      }
+
+      const buttonAnimation = button.animate(
+        [{ transform: 'scale(.94)' }, { transform: 'scale(1)' }],
+        { duration: 220, easing: 'cubic-bezier(.2,.8,.3,1)' },
+      );
+      const axisAnimations = [
+        buttonAnimation,
+        ...outgoingAxis.map(group => group.animate(
+          [{ opacity: 1 }, { opacity: 0 }],
+          { duration: 180, easing: 'ease-out', fill: 'forwards' },
+        )),
+        ...incomingAxis.map(group => group.animate(
+          [{ opacity: 0 }, { opacity: 1 }],
+          { duration: 300, easing: 'ease-out', fill: 'forwards' },
+        )),
+      ];
+
+      if (outgoingSeries && incomingSeries) {
+        const fromLines = [...outgoingSeries.querySelectorAll<SVGPolylineElement>('polyline')];
+        const toLines = [...incomingSeries.querySelectorAll<SVGPolylineElement>('polyline')];
+        const fromPoints = [...outgoingSeries.querySelectorAll<SVGCircleElement>('circle')];
+        const toPoints = [...incomingSeries.querySelectorAll<SVGCircleElement>('circle')];
+        const originalLines = fromLines.map(line => line.getAttribute('points') ?? '');
+        const originalY = fromPoints.map(point => Number(point.getAttribute('cy')));
+        const startLines = originalLines.map(value => value.split(' ').map(pair => pair.split(',').map(Number)));
+        const endLines = toLines.map(line => (line.getAttribute('points') ?? '').split(' ').map(pair => pair.split(',').map(Number)));
+        const endY = toPoints.map(point => Number(point.getAttribute('cy')));
+        const duration = 420;
+        const started = performance.now();
+
+        await new Promise<void>(resolve => {
+          let finished = false;
+          const finish = () => {
+            if (finished) return;
+            finished = true;
+            resolve();
+          };
+          const draw = (now:number) => {
+            const progress = Math.min(1, (now - started) / duration);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            fromLines.forEach((line, lineIndex) => {
+              line.setAttribute('points', startLines[lineIndex].map((point, pointIndex) => {
+                const target = endLines[lineIndex][pointIndex];
+                return `${point[0]},${point[1] + (target[1] - point[1]) * eased}`;
+              }).join(' '));
+            });
+            fromPoints.forEach((point, pointIndex) => {
+              point.setAttribute('cy', String(originalY[pointIndex] + (endY[pointIndex] - originalY[pointIndex]) * eased));
+            });
+            if (progress < 1) requestAnimationFrame(draw);
+            else finish();
+          };
+          requestAnimationFrame(draw);
+          setTimeout(finish, duration + 80);
+        });
+        fromLines.forEach((line, index) => line.setAttribute('points', originalLines[index]));
+        fromPoints.forEach((point, index) => point.setAttribute('cy', String(originalY[index])));
+      }
+
+      outgoing.forEach(group => group.setAttribute('hidden', ''));
+      incoming.forEach(group => group.removeAttribute('hidden'));
+      axisAnimations.forEach(animation => animation.cancel());
+      buttons.forEach(item => item.disabled = false);
+    }));
+  });
+</script>

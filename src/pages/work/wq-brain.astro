@@ -1,0 +1,10 @@
+---
+import Project from '../../layouts/Project.astro';
+---
+<Project benchmark={false} title="WorldQuant BRAIN" description="I built a Python pipeline to research trading signals, backtest them on WorldQuant BRAIN, tune variables with a genetic algorithm, and submit the top performers.">
+  <p slot="intro">Ranked #1 in Singapore on the platform's Genius leaderboard in Q2 2026.</p>
+  <section><h2>Research pipeline</h2><ol class="flow"><li><strong>Research ideas</strong><small>Form alpha expressions</small></li><li><strong>Backtest</strong><small>WorldQuant BRAIN API</small></li><li><strong>Fit variables</strong><small>Genetic algorithm</small></li><li><strong>Submit</strong><small>Top performers</small></li></ol><p class="note">Each iteration feeds tuned candidates back into the next backtest cycle.</p></section>
+  <dl class="metrics volume-metrics"><div><dt>Ideas simulated</dt><dd>228,549</dd></div><div class="signal-metric"><dt>Signals submitted</dt><dd>304</dd></div></dl>
+  <section class="panel"><h2>Live throughput</h2><dl class="metrics"><div><dt>Fresh backtests per hour</dt><dd>68.8</dd></div></dl><p>The bottleneck is BRAIN's backtest and simulation time. Throughput varies with server load, region, and universe size.</p><h3>Median Sharpe retention</h3><div class="bar-rows"><div class="bar-row"><span>OOS / IS</span><div class="bar-track"><div class="bar-fill" style="width:47.9%"></div></div><output>47.9%</output></div></div><p class="note">Retention is the ratio of out-of-sample to in-sample Sharpe.</p></section>
+  <section class="panel"><h2>Best alpha</h2><p>Analyst CAPEX forecast alpha</p><dl class="metrics"><div><dt>OOS Sharpe</dt><dd>2.21</dd></div><div><dt>OOS fitness</dt><dd>2.05</dd></div></dl></section>
+</Project>

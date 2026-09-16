@@ -1,0 +1,16 @@
+<button class="theme-toggle" type="button" aria-label="Dark theme" aria-pressed="false"><span aria-hidden="true">◐</span> Theme</button>
+<script>
+  const button = document.querySelector<HTMLButtonElement>('.theme-toggle');
+  const root = document.documentElement;
+  const sync = () => button?.setAttribute('aria-pressed', String(root.dataset.theme === 'dark'));
+  sync();
+  button?.addEventListener('click', () => {
+    root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+    try { localStorage.setItem('theme', root.dataset.theme); } catch {}
+    sync();
+  });
+</script>
+<style>
+  button {padding:.5rem .75rem;border:1px solid var(--grid);border-radius:4px;color:var(--ink);background:var(--paper);font:12px 'Fragment Mono',monospace;cursor:pointer;min-height:40px}
+  button:hover {border-color:var(--signal)}
+</style>

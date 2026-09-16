@@ -1,4 +1,5 @@
 ---
+import ThemeInit from "../components/ThemeInit.astro";
 import Highlights from "../components/Highlights.astro";
 import { person, roles, projects, skills, education, contact, thesis } from "../data/cv";
 
@@ -21,11 +22,11 @@ const ticks = [
 ];
 
 const pins = [
-  { s: 625e-9, v: "625 ns", t: "arbitrage engine, p99", side: "up", hero: true },
-  { s: 99e-6, v: "99 µs", t: "Rust market data fetcher, p99", side: "down" },
-  { s: 0.00045, v: "0.45 ms", t: "CoreStack steady state, p99", side: "up" },
+  { s: 709e-9, v: "709 ns", t: "arbitrage engine, p99.9", side: "up", hero: true },
+  { s: 99e-6, v: "99 µs", t: "market data fetcher, p99", side: "down" },
+  { s: 0.00045, v: "0.45 ms", t: "Tetrish @2540 req/s, p99", side: "up" },
   { s: (16 / 12) * 31557600, v: "1 y 4 mo", t: "WQ BRAIN research consultant", side: "down" },
-  { s: 21 * 31557600, v: "21 years", t: "my age", side: "up" },
+  { s: 21 * 31557600, v: "21 years old", t: "", side: "up" },
 ];
 
 ---
@@ -34,6 +35,7 @@ const pins = [
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    <ThemeInit />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{person.name} - software engineer & quantitative developer</title>
     <meta name="description" content={thesis} />
@@ -66,11 +68,6 @@ const pins = [
     </header>
 
     <section class="axis" id="axis" aria-label="Everything, plotted on one logarithmic time axis">
-      <p class="axis__caption">
-        From an arbitrage decision to a career in progress, on a logarithmic time axis.
-        Each order of magnitude is ten times the last.
-      </p>
-
       <div class="scale">
         <div class="scale__line" aria-hidden="true"></div>
         {
@@ -91,7 +88,7 @@ const pins = [
               <span class="pin__dot" aria-hidden="true" />
               <span class="pin__body">
                 <b>{p.v}</b>
-                <i>{p.t}</i>
+                {p.t && <i>{p.t}</i>}
               </span>
             </div>
           ))
@@ -109,16 +106,23 @@ const pins = [
         <h2 class="block__title" id="work">Work</h2>
         {
           roles.map((r) => (
-              <article class="entry">
+              <article class:list={["entry", { "entry--linked": r.pageUrl }]}>
                 <div class="entry__meta">
                   <p class="entry__dates">{r.dates}</p>
                   <p class="entry__where">{r.where}</p>
                 </div>
                 <div class="entry__main">
                   <h3>
-                    {r.title}
+                    {r.pageUrl ? (
+                      <a class="entry__title-link" href={r.pageUrl}>
+                        {r.title}
+                      </a>
+                    ) : (
+                      r.title
+                    )}
                     {r.note && <em> ({r.note})</em>}
                   </h3>
+                  {r.pageUrl && <span class="entry__arrow" aria-hidden="true">&#8599;</span>}
                   <p class="entry__org">
                     {r.orgUrl ? (
                       <a href={r.orgUrl} target="_blank" rel="noopener">
@@ -129,11 +133,13 @@ const pins = [
                     )}
                   </p>
                   <p class="entry__summary">{r.summary}</p>
-                  <ul>
-                    {r.bullets.map((x) => (
-                      <li>{x}</li>
-                    ))}
-                  </ul>
+                  {r.bullets.length > 0 && (
+                    <ul>
+                      {r.bullets.map((x) => (
+                        <li>{x}</li>
+                      ))}
+                    </ul>
+                  )}
                   <p class="chips">
                     {r.stack.map((s) => (
                       <span>{s}</span>
@@ -149,19 +155,30 @@ const pins = [
         <h2 class="block__title" id="proj">Projects</h2>
         {
           projects.map((p) => (
-              <article class="entry">
+              <article class:list={["entry", { "entry--linked": p.pageUrl }]}>
                 <div class="entry__meta">
                   <p class="entry__dates">{p.year}</p>
                 </div>
                 <div class="entry__main">
-                  <h3>{p.name}</h3>
-                  <p class="entry__org">{p.tagline}</p>
+                  <h3>
+                    {p.pageUrl ? (
+                      <a class="entry__title-link" href={p.pageUrl}>
+                        {p.name}
+                      </a>
+                    ) : (
+                      p.name
+                    )}
+                  </h3>
+                  {p.pageUrl && <span class="entry__arrow" aria-hidden="true">&#8599;</span>}
+                  <p class="entry__summary">{p.tagline}</p>
                   {p.award && <p class="entry__award">{p.award}</p>}
-                  <ul>
-                    {p.bullets.map((x) => (
-                      <li>{x}</li>
-                    ))}
-                  </ul>
+                  {p.bullets.length > 0 && (
+                    <ul>
+                      {p.bullets.map((x) => (
+                        <li>{x}</li>
+                      ))}
+                    </ul>
+                  )}
                   {p.publicationUrl && <p><a href={p.publicationUrl}>Read publication ↗</a></p>}
                 {p.url && (
                     <a class="entry__link" href={p.url} target="_blank" rel="noopener">
@@ -196,16 +213,6 @@ const pins = [
         </article>
         <article class="entry">
           <div class="entry__meta">
-            <p class="entry__dates">{education.exchange.dates}</p>
-            <p class="entry__where">{education.exchange.where}</p>
-          </div>
-          <div class="entry__main">
-            <h3>{education.exchange.note}</h3>
-            <p class="entry__org">{education.exchange.school}</p>
-          </div>
-        </article>
-        <article class="entry">
-          <div class="entry__meta">
             <p class="entry__dates">{education.upcomingExchange.dates}</p>
             <p class="entry__where">{education.upcomingExchange.where}</p>
           </div>
@@ -215,6 +222,16 @@ const pins = [
             <p class="chips">
               {education.upcomingExchange.coursework.map((course) => <span>{course}</span>)}
             </p>
+          </div>
+        </article>
+        <article class="entry">
+          <div class="entry__meta">
+            <p class="entry__dates">{education.exchange.dates}</p>
+            <p class="entry__where">{education.exchange.where}</p>
+          </div>
+          <div class="entry__main">
+            <h3>{education.exchange.note}</h3>
+            <p class="entry__org">{education.exchange.school}</p>
           </div>
         </article>
       </section>
@@ -254,16 +271,18 @@ const pins = [
     <footer class="foot">{person.site}</footer>
 
     <script is:inline>
-      const root = document.documentElement;
       const themeButton = document.querySelector(".theme-toggle");
-      const savedTheme = localStorage.getItem("theme");
-      if (savedTheme === "light" || savedTheme === "dark") root.dataset.theme = savedTheme;
+      const root = document.documentElement;
+      const syncThemeButton = () => {
+        themeButton?.setAttribute("aria-pressed", String(root.dataset.theme === "dark"));
+      };
+      syncThemeButton();
       themeButton?.addEventListener("click", () => {
-        const systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-        const current = root.dataset.theme || (systemDark ? "dark" : "light");
-        const next = current === "dark" ? "light" : "dark";
-        root.dataset.theme = next;
-        localStorage.setItem("theme", next);
+        root.dataset.theme = root.dataset.theme === "dark" ? "light" : "dark";
+        try {
+          localStorage.setItem("theme", root.dataset.theme);
+        } catch {}
+        syncThemeButton();
       });
     </script>
 
@@ -274,7 +293,7 @@ const pins = [
         --grid: #c3d0ce;
         --mute: #66787c;
         --signal: #e5006d;
-        --cobalt: #1f4ae0;
+        --cobalt: #e5006d;
         --wash: rgba(238, 241, 240, 0.86);
       }
       @media (prefers-color-scheme: dark) {
@@ -284,7 +303,7 @@ const pins = [
           --grid: #26363a;
           --mute: #8ea2a5;
           --signal: #ff4f9b;
-          --cobalt: #8ca7ff;
+          --cobalt: #ff4f9b;
           --wash: rgba(13, 20, 24, 0.88);
         }
       }
@@ -294,7 +313,7 @@ const pins = [
         --grid: #c3d0ce;
         --mute: #66787c;
         --signal: #e5006d;
-        --cobalt: #1f4ae0;
+        --cobalt: #e5006d;
         --wash: rgba(238, 241, 240, 0.86);
       }
       :root[data-theme="dark"] {
@@ -303,7 +322,7 @@ const pins = [
         --grid: #26363a;
         --mute: #8ea2a5;
         --signal: #ff4f9b;
-        --cobalt: #8ca7ff;
+        --cobalt: #ff4f9b;
         --wash: rgba(13, 20, 24, 0.88);
       }
       * {
@@ -633,6 +652,10 @@ const pins = [
         font-size: 10px;
         color: var(--mute);
       }
+      .entry__main h3 + .entry__summary,
+      .entry__main h3 + .entry__arrow + .entry__summary {
+        margin-top: 0.6rem;
+      }
       .entry__main h3 {
         margin: 0;
         font-family: "Familjen Grotesk", system-ui, sans-serif;
@@ -674,6 +697,60 @@ const pins = [
       }
       .entry__main li::marker {
         color: var(--signal);
+      }
+      /* resting state is unchanged; only hover and focus differ */
+      .entry--linked {
+        position: relative;
+        transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.3, 1),
+          border-bottom-color 0.25s ease;
+      }
+      .entry__title-link {
+        color: inherit;
+        text-decoration: none;
+      }
+      /* covers the whole entry, so the entire row is the click target */
+      .entry__title-link::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+      }
+      /* keep the other links above the stretched hit area */
+      .entry--linked a:not(.entry__title-link) {
+        position: relative;
+        z-index: 1;
+      }
+      .entry__arrow {
+        position: absolute;
+        top: 1.75rem;
+        right: 0;
+        opacity: 0;
+        transform: translate(-5px, 5px);
+        transition: opacity 0.25s ease,
+          transform 0.25s cubic-bezier(0.2, 0.8, 0.3, 1);
+      }
+      .entry--linked:has(.entry__title-link:hover),
+      .entry--linked:has(.entry__title-link:focus-visible) {
+        transform: translateY(-4px);
+        border-bottom-color: var(--signal);
+      }
+      .entry--linked:has(.entry__title-link:hover) h3,
+      .entry--linked:has(.entry__title-link:focus-visible) h3 {
+        color: var(--signal);
+      }
+      .entry--linked:has(.entry__title-link:hover) .entry__arrow,
+      .entry--linked:has(.entry__title-link:focus-visible) .entry__arrow {
+        opacity: 1;
+        transform: translate(0, 0);
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .entry--linked,
+        .entry__arrow {
+          transition: none;
+        }
+        .entry--linked:has(.entry__title-link:hover),
+        .entry--linked:has(.entry__title-link:focus-visible) {
+          transform: none;
+        }
       }
       .entry__link {
         display: inline-block;
@@ -819,6 +896,21 @@ const pins = [
         }
       }
       @media (min-width: 901px) {
+        /* the grey label sits on its own line and does not wrap */
+        .pin__body { width: auto; white-space: nowrap; }
+        /* except this one, which reads better over two lines */
+        .pin:nth-last-child(2) .pin__body { width: 82px; white-space: normal; }
+        /* the two rightmost pins grow leftwards so they stay on the page */
+        .pin:nth-last-child(2) .pin__body,
+        .pin:last-child .pin__body {
+          left: auto;
+          right: 0;
+          text-align: right;
+          padding-left: 0;
+          padding-right: 10px;
+          border-left: 0;
+          border-right: 1px solid var(--grid);
+        }
         .pin:nth-last-child(2) .pin__body { top: 110px; }
         .pin:nth-last-child(2) .pin__stem { height: 106px; }
         .pin:last-child .pin__body { bottom: 125px; }
