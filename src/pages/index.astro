@@ -701,8 +701,23 @@ const pins = [
       /* resting state is unchanged; only hover and focus differ */
       .entry--linked {
         position: relative;
-        transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.3, 1),
-          border-bottom-color 0.25s ease;
+        isolation: isolate;
+        transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.3, 1);
+      }
+      .entry--linked::before {
+        content: "";
+        position: absolute;
+        inset: 0 -14px;
+        z-index: 0;
+        background: color-mix(in srgb, var(--signal) 7%, transparent);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s ease;
+      }
+      .entry--linked > .entry__meta,
+      .entry--linked > .entry__main {
+        position: relative;
+        z-index: 1;
       }
       .entry__title-link {
         color: inherit;
@@ -728,10 +743,13 @@ const pins = [
         transition: opacity 0.25s ease,
           transform 0.25s cubic-bezier(0.2, 0.8, 0.3, 1);
       }
-      .entry--linked:has(.entry__title-link:hover),
-      .entry--linked:has(.entry__title-link:focus-visible) {
+      .entry--linked:hover::before,
+      .entry--linked:focus-within::before {
+        opacity: 1;
+      }
+      .entry--linked:hover,
+      .entry--linked:focus-within {
         transform: translateY(-4px);
-        border-bottom-color: var(--signal);
       }
       .entry--linked:has(.entry__title-link:hover) h3,
       .entry--linked:has(.entry__title-link:focus-visible) h3 {
@@ -743,12 +761,13 @@ const pins = [
         transform: translate(0, 0);
       }
       @media (prefers-reduced-motion: reduce) {
+        .entry--linked::before,
         .entry--linked,
         .entry__arrow {
           transition: none;
         }
-        .entry--linked:has(.entry__title-link:hover),
-        .entry--linked:has(.entry__title-link:focus-visible) {
+        .entry--linked:hover,
+        .entry--linked:focus-within {
           transform: none;
         }
       }

@@ -18,33 +18,38 @@ export const person = {
 export const thesis =
   "I build trading infrastructure and systems software: Rust market-data services, C systems code, and Python automation.";
 
-export const benchmarkContext = "All benchmarks are done on a local machine, MacBook Air (M2, 2022), RAM: 16 GB.";
+export const benchmarkContext =
+  "All benchmarks are done on a local machine, MacBook Air (M2, 2022), RAM: 16 GB.";
 
 export const highlights = [
   {
+    domain: "Systems / C",
     name: "CoreStack / Tetrish",
-    value: "0.45 ms",
-    unit: "p99",
-    description: "p99 0.45 ms at 2,540 req/s, with zero dropped requests.",
-    context: "254 concurrent TCP clients at 10 req/s each.",
+    value: "2,540 req/s",
+    unit: "p99 0.45 ms · zero drops",
+    description:
+      "Multiplayer terminal Tetris. I built the shell, HMAC token auth, database IPC, and UNIX-datagram logging.",
+    context: "254 concurrent TCP clients",
     href: "/projects/corestack/",
   },
   {
+    domain: "Quant research / Python",
     name: "WQ BRAIN",
     value: "#1 Singapore",
     unit: "Genius leaderboard · Q2 2026",
     description:
-      "Simulated 228,549 alphas and submitted 304 signals. The best alpha reached 2.21 out-of-sample Sharpe and 2.05 out-of-sample fitness.",
-    context: "WorldQuant BRAIN Genius leaderboard, Q2 2026.",
+      "I built the full alpha pipeline: generate ideas, backtest through BRAIN, tune variables with a genetic algorithm, then submit the best.",
+    context: "228,549 ideas · 304 signals submitted",
     href: "/work/wq-brain/",
   },
   {
+    domain: "Quant infrastructure / Rust",
     name: "QD: MADE BY AI",
-    value: "709 ns",
-    unit: "p99.9 decision latency · -92.7%",
+    value: "9,666 → 709 ns",
+    unit: "p99.9 · order-book depth 5",
     description:
-      "Reduced tick-to-decision p99.9 latency at order-book depth 5 from 9,666 ns to 709 ns.",
-    context: "Arbitrage engine, measured after 50,000 warmup iterations.",
+      "I wrote the Rust market-data service and moved the arbitrage engine from Python to Rust, then removed all 36 allocations from its decision path.",
+    context: "2 exchanges · 11 pairs · 0 allocations",
     href: "/work/made-by-ai/",
   },
 ];
@@ -151,35 +156,30 @@ export type Project = {
 
 export const projects: Project[] = [
   {
-    "name": "CoreStack / Tetrish",
-    "pageUrl": "/projects/corestack",
-    "year": "2026",
-    "tagline": "Wrote a shared C systems layer (UNIX-datagram logging daemon, HMAC-SHA256 token auth, stream-socket and pipe DB access) used by two separate applications, a multiplayer Tetris server and an e-voting system, and load-tested it at 254 concurrent TCP clients at 10 req/s, sustaining throughput with no deadlocks, leaks, or crashes.",
-    "url": "https://github.com/JediNakDev/corestack",
-    "urlLabel": "github.com/JediNakDev/corestack",
-    "bullets": [
+    name: "CoreStack / Tetrish",
+    pageUrl: "/projects/corestack",
+    year: "2026",
+    tagline:
+      "Wrote a shared C systems layer (UNIX-datagram logging daemon, HMAC-SHA256 token auth, stream-socket and pipe DB access) used by two separate applications, a multiplayer Tetris server and an e-voting system, and load-tested it at 254 concurrent TCP clients at 10 req/s, sustaining throughput with no deadlocks, leaks, or crashes.",
+    url: "https://github.com/JediNakDev/corestack",
+    urlLabel: "github.com/JediNakDev/corestack",
+    bullets: [
       "Held steady state at 254 concurrent clients pushing 10 req/s each (2,540 req/s) at 0.3 ms p50, 0.45 ms p99, and 0.55 ms p99.9, without dropping a request.",
-      "Found the saturation knee near 30k req/s, past which p50 degrades by more than an order of magnitude."
+      "Found the saturation knee near 30k req/s, past which p50 degrades by more than an order of magnitude.",
     ],
-    "stack": [
-      "C",
-      "POSIX sockets",
-      "pthreads"
-    ]
+    stack: ["C", "POSIX sockets", "pthreads"],
   },
   {
-    "name": "Coupled ODE Simulation Engine",
-    "year": "2023",
-    "tagline": "Wrote a Python simulator that solves coupled ODEs with custom time-stepping and matrix-based state propagation, then turned the resulting trajectories into cost and exergy efficiency comparisons across PCM materials.",
-    "url": "https://github.com/JediNakDev/coupled-ode-sim",
-    "urlLabel": "github.com/JediNakDev/coupled-ode-sim",
-    "publicationUrl": "https://doi.org/10.1088/1742-6596/2653/1/012038",
-    "bullets": [],
-    "stack": [
-      "Python",
-      "Numerical simulation"
-    ]
-  }
+    name: "Coupled ODE Simulation Engine",
+    year: "2023",
+    tagline:
+      "Wrote a Python simulator that solves coupled ODEs with custom time-stepping and matrix-based state propagation, then turned the resulting trajectories into cost and exergy efficiency comparisons across PCM materials.",
+    url: "https://github.com/JediNakDev/coupled-ode-sim",
+    urlLabel: "github.com/JediNakDev/coupled-ode-sim",
+    publicationUrl: "https://doi.org/10.1088/1742-6596/2653/1/012038",
+    bullets: [],
+    stack: ["Python", "Numerical simulation"],
+  },
 ];
 
 export const education = {
@@ -212,7 +212,10 @@ export const education = {
 };
 
 export const skills = [
-  { group: "Languages", items: ["Python", "Rust", "C++", "C", "SQL", "TypeScript", "Java"] },
+  {
+    group: "Languages",
+    items: ["Python", "Rust", "C++", "C", "SQL", "TypeScript", "Java"],
+  },
   {
     group: "Backend",
     items: [
@@ -225,7 +228,10 @@ export const skills = [
       "Redis",
     ],
   },
-  { group: "Tools", items: ["Linux", "Docker", "Git", "GitHub Actions", "pytest"] },
+  {
+    group: "Tools",
+    items: ["Linux", "Docker", "Git", "GitHub Actions", "pytest"],
+  },
 ];
 
 export const contact = [
